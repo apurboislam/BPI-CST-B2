@@ -45,7 +45,7 @@ export default function ClassRoutine() {
         setMessage('Bell\'s E Jauwar Din xD')
       }
     } catch (err) {
-      setError('Failed to fetch routine data')
+      setError('Failed to fetch routine data, ERROR: ' + err)
     } finally {
       setLoading(false)
     }
