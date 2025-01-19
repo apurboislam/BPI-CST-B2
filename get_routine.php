@@ -1,5 +1,8 @@
 <?php
 
+// Allow cross-origin requests from any domain
+header("Access-Control-Allow-Origin: *");
+
 // Hardcoded routine data
 $routine = [
     "Sun" => [
@@ -39,9 +42,9 @@ $routine = [
         "7th" => ["subject" => "Ghurar Time Bruh ;)", "teacher" => "Keu Nai", "room" => "Pukurer Pashe I think?"],
     ],
     "Thu" => [
-        "1st" => ["subject" => "Basic Electricity-1", "teacher" => "EMT-1", "room" => "ECL"],
-        "2nd" => ["subject" => "Basic Electricity-1", "teacher" => "EMT-1", "room" => "ECL"],
-        "3rd" => ["subject" => "Basic Electricity-1", "teacher" => "EMT-1", "room" => "ECL"],
+        "1st" => ["subject" => "Basic Electricity", "teacher" => "EMT-1", "room" => "ECL"],
+        "2nd" => ["subject" => "Basic Electricity", "teacher" => "EMT-1", "room" => "ECL"],
+        "3rd" => ["subject" => "Basic Electricity", "teacher" => "EMT-1", "room" => "ECL"],
         "4th" => ["subject" => "Physics-1", "teacher" => "Md Sultan Mahmud", "room" => "338"],
         "5th" => ["subject" => "Physics-1", "teacher" => "Md Sultan Mahmud", "room" => "338"],
         "6th" => ["subject" => "Bangla-1", "teacher" => "Ruhul Amin Rajib", "room" => "338"],
@@ -49,8 +52,18 @@ $routine = [
     ],
 ];
 
-// Get the current day
-$currentDay = date("D"); // e.g., "Sun", "Mon", etc.
+$day = $_GET['day'];
+
+$currentDay = '';
+$currentDayName = '';
+
+if($day === "next") {
+    $currentDay = date("D", strtotime(' +1 day'));
+    $currentDayName = date('l', strtotime(' +1 day'));
+} else {
+    $currentDay = date("D");
+    $currentDayName = date('l');
+}
 
 // Map PHP date day format to routine day names
 $dayMap = [
@@ -66,7 +79,7 @@ $dayMap = [
 $data = $routine[$dayMap[$currentDay]] ?? null;
 $response = [
     "success" => $data !== null,
-    "message" => $data ? "Routine for $currentDay" : "No classes today!",
+    "message" => $data ? "Routine for $currentDayName" : "No classes today!",
     "data" => $data,
 ];
 // Return response as JSON
